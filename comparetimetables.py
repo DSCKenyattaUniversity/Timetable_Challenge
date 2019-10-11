@@ -110,3 +110,6 @@ def compare(*args):
 compare("tmtbl1.xlsx")
 compare("tmtbl2.xlsx")
 compare("tmtbl1.xlsx", "tmtbl2.xlsx")
+
+
+
