@@ -1,4 +1,5 @@
 from timetable import TimeTable 
+from colored import stylize , fg
 
 
 timetable1 = TimeTable()
@@ -120,7 +121,7 @@ def print_hour_string_before_timetable():
         print_once = False
         print(tabs_before_printing_hours_string_prompt +  hours_string_prompt)
 
-def print_a_timetable_to_the_terminal( hour_taken_array):
+def print_a_timetable_to_the_terminal( hour_taken_array, color):
     global next_multiplier
     global now_multiplier
     global tabs_before_printing_day_to_screen
@@ -171,12 +172,8 @@ def print_a_timetable_to_the_terminal( hour_taken_array):
                 shade+="\t"
                 previous_hour_free= True 
 
-
-    print(tabs_before_printing_day_to_screen+ shade)
-    print(tabs_before_printing_day_to_screen+ shade)
-    print(tabs_before_printing_day_to_screen+ shade)
-    print(tabs_before_printing_day_to_screen+ shade)
-
+    for i in range(4): #print four times
+        print(stylize(tabs_before_printing_day_to_screen+ shade,fg(color)))
 
 
 # used to ensure a consistent shading of the timetable
@@ -206,6 +203,15 @@ int_to_days_of_week ={
         
 }
 
+int_to_color_rep_of_day_of_week ={
+    0 : 160,
+    1 : 162,
+    2 : 120,
+    3 : 166,
+    4 : 168,
+        
+}
+
 
 # take in a timetable of the whole week and 
 # first split it each day's schedule to one hour periods
@@ -216,9 +222,7 @@ def map_a_whole_timetable_into_one_hour_slots_and_print(timetable):
     for day in range(5):
         list_of_one_hour_slots = split_into_one_hour_components(timetable.array_of_week_schedule[day])
         map_one_hour_slots_to_hour_taken_array( list_of_one_hour_slots, array_of_one_hour_slots_of_week[day])
-        print(int_to_days_of_week[day], end= "")
-        print_a_timetable_to_the_terminal( array_of_one_hour_slots_of_week[day])
+        print(stylize(int_to_days_of_week[day], fg(int_to_color_rep_of_day_of_week[day])), end= "")
+        print_a_timetable_to_the_terminal( array_of_one_hour_slots_of_week[day], int_to_color_rep_of_day_of_week[day])
     
-map_a_whole_timetable_into_one_hour_slots_and_print(timetable2)
-print_once = True
 map_a_whole_timetable_into_one_hour_slots_and_print(timetable1)
