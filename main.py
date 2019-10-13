@@ -112,21 +112,26 @@ def map_one_hour_slots_to_hour_taken_array( scheduled_one_hour_time, hour_taken_
 
 # Takes in array whose element represents if a particular our is taken
 print_once = True
-def print_a_timetable_to_the_terminal( hour_taken_array):
+tabs_before_printing_hours_string_prompt ='\t\t'
+tabs_before_printing_day_to_screen ='\t\t'
+def print_hour_string_before_timetable():
     global print_once
-    global next_multiplier
-    global now_multiplier
-
     if print_once:
         print_once = False
-        print( hours_string_prompt)
+        print(tabs_before_printing_hours_string_prompt +  hours_string_prompt)
+
+def print_a_timetable_to_the_terminal( hour_taken_array):
+    global next_multiplier
+    global now_multiplier
+    global tabs_before_printing_day_to_screen
+    global tabs_before_printing_hours_string_prompt
     shade = ""
 
     previous_hour_free= False
 
     for index,hour_taken in enumerate(hour_taken_array):
 
-        # if the 7 to 8 class 
+        # if there is a 7 to 8 class 
         if hour_taken_array[0] == 1:
 
             # default multiplier
@@ -167,10 +172,10 @@ def print_a_timetable_to_the_terminal( hour_taken_array):
                 previous_hour_free= True 
 
 
-    print( shade)
-    print( shade)
-    print( shade)
-    print( shade)
+    print(tabs_before_printing_day_to_screen+ shade)
+    print(tabs_before_printing_day_to_screen+ shade)
+    print(tabs_before_printing_day_to_screen+ shade)
+    print(tabs_before_printing_day_to_screen+ shade)
 
 
 
@@ -192,14 +197,26 @@ def select_multiplier_depending_if_previous_hour_free(index):
         return ( now_multiplier, next_multiplier)
 
 
+int_to_days_of_week ={
+    0 : "Mon",
+    1 : "Tue",
+    2 : "Wed",
+    3 : "Thu",
+    4 : "Fri",
+        
+}
+
+
 # take in a timetable of the whole week and 
 # first split it each day's schedule to one hour periods
 # map each of those slots to the array that represents that an hour is taken
 def map_a_whole_timetable_into_one_hour_slots_and_print(timetable):
+    print_hour_string_before_timetable()
 
     for day in range(5):
         list_of_one_hour_slots = split_into_one_hour_components(timetable.array_of_week_schedule[day])
         map_one_hour_slots_to_hour_taken_array( list_of_one_hour_slots, array_of_one_hour_slots_of_week[day])
+        print(int_to_days_of_week[day], end= "")
         print_a_timetable_to_the_terminal( array_of_one_hour_slots_of_week[day])
     
 map_a_whole_timetable_into_one_hour_slots_and_print(timetable2)
