@@ -22,11 +22,11 @@ timetable1.add_all()
 
 
 NUMBER_OF_HOURS = 11 # number of all one hour periods from 7 to 18hrs
-hour_taken_array = []
-
-# initialize hour_taken_array to zeros
-for one_hour_period in range(NUMBER_OF_HOURS):
-    hour_taken_array.append(0)
+# hour_taken_array = []
+# 
+# # initialize hour_taken_array to zeros
+# for one_hour_period in range(NUMBER_OF_HOURS):
+#     hour_taken_array.append(0)
 
 # used to fill the hour_taken_array
 mappings = {
@@ -57,13 +57,18 @@ next_multiplier = 1
 
 # an array of one_hour_slots of the whole week
 array_of_one_hour_slots_of_week = []
-
 for day in range(5):
     array_of_one_hour_slots_of_week.append([])
 
     for one_hour_period in range(NUMBER_OF_HOURS):
         array_of_one_hour_slots_of_week[day].append(0)
 
+
+def fill_array_of_one_hour_slots_of_week_with_zeros():
+    for day in range(5):
+    
+        for one_hour_period in range(NUMBER_OF_HOURS):
+            array_of_one_hour_slots_of_week[day][one_hour_period] = 0
 
 
 # split the scheduled periods to one hour periods
@@ -119,7 +124,7 @@ def print_hour_string_before_timetable():
     global print_once
     if print_once:
         print_once = False
-        print(tabs_before_printing_hours_string_prompt +  hours_string_prompt)
+        print(stylize(tabs_before_printing_hours_string_prompt +  hours_string_prompt,fg("white")))
 
 def print_a_timetable_to_the_terminal( hour_taken_array, color):
     global next_multiplier
@@ -216,13 +221,18 @@ int_to_color_rep_of_day_of_week ={
 # take in a timetable of the whole week and 
 # first split it each day's schedule to one hour periods
 # map each of those slots to the array that represents that an hour is taken
-def map_a_whole_timetable_into_one_hour_slots_and_print(timetable):
-    print_hour_string_before_timetable()
+def map_a_whole_timetable_into_one_hour_slots_and_print(timetable, print_timetable = False):
+    if print_timetable : print_hour_string_before_timetable()
 
     for day in range(5):
         list_of_one_hour_slots = split_into_one_hour_components(timetable.array_of_week_schedule[day])
         map_one_hour_slots_to_hour_taken_array( list_of_one_hour_slots, array_of_one_hour_slots_of_week[day])
-        print(stylize(int_to_days_of_week[day], fg(int_to_color_rep_of_day_of_week[day])), end= "")
-        print_a_timetable_to_the_terminal( array_of_one_hour_slots_of_week[day], int_to_color_rep_of_day_of_week[day])
+        if print_timetable:
+            print(stylize(int_to_days_of_week[day], fg(int_to_color_rep_of_day_of_week[day])), end= "")
+            print_a_timetable_to_the_terminal( array_of_one_hour_slots_of_week[day], int_to_color_rep_of_day_of_week[day])
     
 map_a_whole_timetable_into_one_hour_slots_and_print(timetable1)
+# fill_array_of_one_hour_slots_of_week_with_zeros()
+print_once = True
+map_a_whole_timetable_into_one_hour_slots_and_print(timetable2, True)
+
